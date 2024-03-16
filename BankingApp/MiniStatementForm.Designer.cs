@@ -28,12 +28,46 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Text = "MiniStatementForm";
+            button_back = new Button();
+            dataGridView_transactions = new DataGridView();
+            ((System.ComponentModel.ISupportInitialize)dataGridView_transactions).BeginInit();
+            SuspendLayout();
+            // 
+            // button_back
+            // 
+            button_back.BackColor = Color.Red;
+            button_back.Location = new Point(57, 24);
+            button_back.Name = "button_back";
+            button_back.Size = new Size(75, 23);
+            button_back.TabIndex = 0;
+            button_back.Text = "Back";
+            button_back.UseVisualStyleBackColor = false;
+            button_back.Click += button1_Click;
+            // 
+            // dataGridView_transactions
+            // 
+            dataGridView_transactions.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridView_transactions.Location = new Point(57, 75);
+            dataGridView_transactions.Name = "dataGridView_transactions";
+            dataGridView_transactions.Size = new Size(392, 349);
+            dataGridView_transactions.TabIndex = 1;
+            // 
+            // MiniStatementForm
+            // 
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(590, 436);
+            Controls.Add(dataGridView_transactions);
+            Controls.Add(button_back);
+            Name = "MiniStatementForm";
+            Text = "MiniStatementForm";
+            ((System.ComponentModel.ISupportInitialize)dataGridView_transactions).EndInit();
+            ResumeLayout(false);
         }
 
         #endregion
+
+        private Button button_back;
+        private DataGridView dataGridView_transactions;
     }
 }
