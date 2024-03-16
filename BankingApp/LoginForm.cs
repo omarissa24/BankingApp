@@ -4,6 +4,8 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Net;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -14,13 +16,23 @@ namespace BankingApp
     public partial class LoginForm : Form
     {
         private MySqlConnection connection;
+        private string server;
+        private string database;
+        private string uid;
+        private string password;
 
         public LoginForm()
         {
             InitializeComponent();
-            // change the connection string to match database
-            string connectionString = "server=localhost;user id=root;password=;database=BankingSystem;";
+            server = "jdbc:mysql://13.39.79.161/";
+            database = "BankingSystem";
+            uid = "epita";
+            password = "Secret@123";
+            string connectionString;
+            connectionString = "SERVER=" + server + ";" + "DATABASE=" +
+            database + ";" + "UID=" + uid + ";" + "PASSWORD=" + password + ";";
             connection = new MySqlConnection(connectionString);
+            //createMockUser();
         }
 
         private void loginButton_Click(object sender, EventArgs e)
