@@ -13,6 +13,7 @@ namespace BankingApp
     public partial class MainForm : Form
     {
         private int userId;
+        public static float balance = 0;
 
         public MainForm(int userId)
         {

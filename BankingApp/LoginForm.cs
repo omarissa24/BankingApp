@@ -24,15 +24,14 @@ namespace BankingApp
         public LoginForm()
         {
             InitializeComponent();
-            server = "jdbc:mysql://13.39.79.161/";
-            database = "BankingSystem";
+            server = "13.39.79.161";
+            database = "bankapp";
             uid = "epita";
             password = "Secret@123";
             string connectionString;
             connectionString = "SERVER=" + server + ";" + "DATABASE=" +
             database + ";" + "UID=" + uid + ";" + "PASSWORD=" + password + ";";
             connection = new MySqlConnection(connectionString);
-            //createMockUser();
         }
 
         private void loginButton_Click(object sender, EventArgs e)
