@@ -30,6 +30,7 @@ namespace BankingApp
 
         public int Login(string username, string pin)
         {
+            pin = EncodePassword(pin);
             string query = $"SELECT UserId FROM User WHERE Username = '{username}' AND Pin = '{pin}'";
             connection.Open();
             MySqlCommand cmd = new MySqlCommand(query, connection);
@@ -114,6 +115,34 @@ namespace BankingApp
             adapter.Fill(table);
             connection.Close();
             return table;
+        }
+
+        private static string EncodePassword(string password)
+        {
+            byte[] data = System.Text.Encoding.Unicode.GetBytes(password);
+            byte[] result = System.Security.Cryptography.SHA256.HashData(data);
+            return Convert.ToBase64String(result);
+        }
+
+        public void CreateUser(string username, string pin)
+        {
+            string query = "INSERT INTO User (Username, Pin) VALUES (@username, @pin)";
+            connection.Open();
+            MySqlCommand cmd = new MySqlCommand(query, connection);
+            cmd.Parameters.AddWithValue("@username", username);
+            cmd.Parameters.AddWithValue("@pin", EncodePassword(pin));
+            cmd.ExecuteNonQuery();
+            connection.Close();
+        }
+
+        public void CreateAccount(int userId)
+        {
+            string query = "INSERT INTO Account (accountUser, Balance) VALUES (@userId, 0)";
+            connection.Open();
+            MySqlCommand cmd = new MySqlCommand(query, connection);
+            cmd.Parameters.AddWithValue("@userId", userId);
+            cmd.ExecuteNonQuery();
+            connection.Close();
         }
     }
 }
