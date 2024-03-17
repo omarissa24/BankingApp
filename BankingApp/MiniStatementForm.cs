@@ -19,7 +19,6 @@ namespace BankingApp
         private DBService dbService = new DBService();
         private int userId;
         private int accountId;
-        //BindingSource transactionBindingSource = new BindingSource();
 
         public MiniStatementForm(int userId)
         {
@@ -30,9 +29,6 @@ namespace BankingApp
 
         private void MiniStatementForm_Load(object sender, EventArgs e)
         {
-            // this.userId = userId;
-            // this.accountId = dbService.GetAccountId(this.userId);
-
             miniStatementDataGridView.DataSource = dbService.GetTransactionsAsDataTable(this.accountId);
         }
 
@@ -57,11 +53,6 @@ namespace BankingApp
             string transactionDate = filterTransactionDateTime.ToString("yyyy-MM-dd");
 
             miniStatementDataGridView.DataSource = dbService.GetDateFilteredTransactionsAsDataTable(this.accountId, transactionDate);
-        }
-
-        private void textBox_search_TextChanged(object sender, EventArgs e)
-        {
-
         }
     }
 }

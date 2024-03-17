@@ -30,7 +30,6 @@ namespace BankingApp
         /// </summary>
         private void InitializeComponent()
         {
-            button_back = new Button();
             textBox_search = new TextBox();
             button_search = new Button();
             dateTimePicker_transaction = new DateTimePicker();
@@ -39,31 +38,19 @@ namespace BankingApp
             ((ISupportInitialize)miniStatementDataGridView).BeginInit();
             SuspendLayout();
             // 
-            // button_back
-            // 
-            button_back.BackColor = Color.Red;
-            button_back.Location = new Point(25, 26);
-            button_back.Name = "button_back";
-            button_back.Size = new Size(75, 23);
-            button_back.TabIndex = 0;
-            button_back.Text = "Back";
-            button_back.UseVisualStyleBackColor = false;
-            button_back.Click += button1_Click;
-            // 
             // textBox_search
             // 
-            textBox_search.Location = new Point(280, 26);
+            textBox_search.Location = new Point(242, 65);
             textBox_search.Name = "textBox_search";
             textBox_search.PlaceholderText = "Search Transaction Type";
-            textBox_search.Size = new Size(217, 23);
+            textBox_search.Size = new Size(248, 23);
             textBox_search.TabIndex = 2;
-            textBox_search.TextChanged += textBox_search_TextChanged;
             // 
             // button_search
             // 
-            button_search.Location = new Point(503, 26);
+            button_search.Location = new Point(499, 65);
             button_search.Name = "button_search";
-            button_search.Size = new Size(75, 23);
+            button_search.Size = new Size(82, 23);
             button_search.TabIndex = 3;
             button_search.Text = "Search";
             button_search.UseVisualStyleBackColor = true;
@@ -71,9 +58,9 @@ namespace BankingApp
             // 
             // dateTimePicker_transaction
             // 
-            dateTimePicker_transaction.Location = new Point(134, 26);
+            dateTimePicker_transaction.Location = new Point(5, 66);
             dateTimePicker_transaction.Name = "dateTimePicker_transaction";
-            dateTimePicker_transaction.Size = new Size(127, 23);
+            dateTimePicker_transaction.Size = new Size(215, 23);
             dateTimePicker_transaction.TabIndex = 4;
             dateTimePicker_transaction.ValueChanged += dateTimePicker_transaction_ValueChanged;
             // 
@@ -81,7 +68,7 @@ namespace BankingApp
             // 
             miniStatementLabel.AutoSize = true;
             miniStatementLabel.Font = new Font("Microsoft Sans Serif", 20F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            miniStatementLabel.Location = new Point(424, 216);
+            miniStatementLabel.Location = new Point(174, 14);
             miniStatementLabel.Name = "miniStatementLabel";
             miniStatementLabel.Size = new Size(194, 31);
             miniStatementLabel.TabIndex = 0;
@@ -93,21 +80,20 @@ namespace BankingApp
             miniStatementDataGridView.AllowUserToDeleteRows = false;
             miniStatementDataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
             miniStatementDataGridView.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
-            miniStatementDataGridView.Location = new Point(197, 310);
+            miniStatementDataGridView.Location = new Point(22, 107);
             miniStatementDataGridView.Name = "miniStatementDataGridView";
             miniStatementDataGridView.ReadOnly = true;
-            miniStatementDataGridView.Size = new Size(800, 500);
+            miniStatementDataGridView.Size = new Size(547, 283);
             miniStatementDataGridView.TabIndex = 1;
             // 
             // MiniStatementForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1200, 1040);
+            ClientSize = new Size(593, 404);
             Controls.Add(dateTimePicker_transaction);
             Controls.Add(button_search);
             Controls.Add(textBox_search);
-            Controls.Add(button_back);
             Controls.Add(miniStatementDataGridView);
             Controls.Add(miniStatementLabel);
             Name = "MiniStatementForm";
@@ -120,15 +106,6 @@ namespace BankingApp
 
         #endregion
 
-
-        /*private Button button_back;
-        //private DataGridView dataGridView_transactions;
-        private TextBox textBox_search;
-        private Button button_search;
-        private DateTimePicker dateTimePicker_transaction;
-        private Label label1;*/
-
-        private Button button_back;
         private TextBox textBox_search;
         private Button button_search;
         private DateTimePicker dateTimePicker_transaction;
