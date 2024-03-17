@@ -18,7 +18,7 @@ The Bank Management Application is a secure and user-friendly Windows Forms appl
 
 ## How to Use
 
-1. **Logging In:** Start by launching the application and entering your username and PIN at the login screen. Remember, your PIN is securely hashed for your protection. (You might want to create your user in your database using the createUser functionality (check the installation below for further guidance))
+1. **Logging In:** Start by launching the application and entering your username and PIN at the login screen. Remember, your PIN is securely hashed for your protection. (You might want to create a user first in the signup form)
 
 2. **Navigating the Application:** Once logged in, you'll be presented with the main interface, where you can choose from the available banking operations: Withdraw, Deposit, View Balance, or Mini Statement.
 
@@ -36,4 +36,3 @@ To install the Bank Management Application on your Windows system, follow these 
 
 1. Install MySql.Data from your Nuget Package Manager. (Right click on dependencies -> Click on manage Nuget Packages -> Browse and Install Required Packages.)
 2. Add your DB_SERVER, DB_DATABASE, DB_UID, DB_PASSWORD in your system environement variables to connect to your desired database.
-3. In the dbservice, you have 2 functions called createUser and createAccount. Call the following functions in any constructor of any form that you would like to create your desired user and the linked account.
