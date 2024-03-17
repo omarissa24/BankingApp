@@ -36,7 +36,7 @@
             // button_back
             // 
             button_back.BackColor = Color.Red;
-            button_back.Location = new Point(57, 24);
+            button_back.Location = new Point(25, 25);
             button_back.Name = "button_back";
             button_back.Size = new Size(75, 23);
             button_back.TabIndex = 0;
@@ -47,9 +47,9 @@
             // dataGridView_transactions
             // 
             dataGridView_transactions.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView_transactions.Location = new Point(57, 75);
+            dataGridView_transactions.Location = new Point(25, 75);
             dataGridView_transactions.Name = "dataGridView_transactions";
-            dataGridView_transactions.Size = new Size(392, 349);
+            dataGridView_transactions.Size = new Size(553, 349);
             dataGridView_transactions.TabIndex = 1;
             // 
             // MiniStatementForm
