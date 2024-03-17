@@ -68,7 +68,6 @@ namespace BankingApp
                 " transactionAmount, transactionStatus FROM transaction " +
                 "WHERE idAccount = @id AND transactionType LIKE @search";
 
-            //int id = userId;
             string searchWildCard = "%" + searchTerm + "%";
 
             MySqlCommand command = new MySqlCommand(query, connection);
@@ -96,6 +95,45 @@ namespace BankingApp
 
             return transactions;
 
+        }
+        public List<Transaction> getDateFilteredTransactions(int userId, string transactionDate)
+        {
+            // Starts with an empty list 
+            List<Transaction> transactions = new List<Transaction>();
+
+            // Connecting to Mysql server
+            MySqlConnection connection = new MySqlConnection(connectionString);
+            connection.Open();
+
+            // SQL Query for feting the data needed
+            string query = "SELECT transactionTime, transactionType," +
+                " transactionAmount, transactionStatus FROM transaction " +
+                "WHERE idAccount = @id AND DATE(transactionTime) = @transactionDate";
+       
+            MySqlCommand command = new MySqlCommand(query, connection);
+
+            command.Parameters.AddWithValue("@id", userId);
+            command.Parameters.AddWithValue("@transactionDate", transactionDate);
+            command.Connection = connection;
+
+            using (MySqlDataReader reader = command.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    Transaction transaction = new Transaction
+                    {
+                        transactionTime = reader.GetDateTime(0),
+                        transactionType = reader.GetString(1),
+                        transactionAmount = reader.GetFloat(2),
+                        transactionStatus = reader.GetString(3)
+                    };
+
+                    transactions.Add(transaction);
+                }
+            }
+            connection.Close();
+
+            return transactions;
         }
     }
 }
