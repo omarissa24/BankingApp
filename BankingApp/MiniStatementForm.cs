@@ -1,60 +1,39 @@
 ﻿using MySql.Data.MySqlClient;
+using Mysqlx.Crud;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics.Metrics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.TimeZoneInfo;
 
 namespace BankingApp
 {
     public partial class MiniStatementForm : Form
     {
-        int userId;
-        BindingSource transactionBindingSource = new BindingSource();
-        public MiniStatementForm()
-        {
-            InitializeComponent();
-        }
+        private DBService dbService = new DBService();
+        private int userId;
+        private int accountId;
+        //BindingSource transactionBindingSource = new BindingSource();
 
         public MiniStatementForm(int userId)
         {
             this.userId = userId;
+            this.accountId = dbService.GetAccountId(this.userId);
             InitializeComponent();
-            // Load user data and transactions.
-            TransactionsDAO transactionDAO = new TransactionsDAO();
+        }
 
-            // Connect the list to  the grid view 
-            //transactionBindingSource.DataSource = transactionDAO.getAllTransactions(userId);
+        private void MiniStatementForm_Load(object sender, EventArgs e)
+        {
+            // this.userId = userId;
+            // this.accountId = dbService.GetAccountId(this.userId);
 
-            //dataGridView_transactions.DataSource = transactionBindingSource;
-            var transactions = transactionDAO.getAllTransactions(userId);
-
-            // New DataTable
-            DataTable dataTable = new DataTable();
-
-            // Adding columns to the table
-            dataTable.Columns.Add("Index", typeof(int));
-            dataTable.Columns.Add("Transaction Date", typeof(DateTime));
-            dataTable.Columns.Add("Transaction Type", typeof(string));
-            dataTable.Columns.Add("Transaction Amount", typeof(float));
-            dataTable.Columns.Add("Transaction Status", typeof(string));
-
-
-            // Connect the list to  the grid view 
-            //transactionBindingSource.DataSource = transactionDAO.getDateFilteredTransactions(userId, transactionDate);
-            int index = 1;
-            foreach (var transaction in transactions)
-            {
-                dataTable.Rows.Add(index++, transaction.transactionTime, transaction.transactionType,
-                    transaction.transactionAmount, transaction.transactionStatus);
-            }
-
-            dataGridView_transactions.DataSource = dataTable;
-
+            miniStatementDataGridView.DataSource = dbService.GetTransactionsAsDataTable(this.accountId);
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -66,36 +45,7 @@ namespace BankingApp
         {
             string searchTerm = textBox_search.Text;
 
-            TransactionsDAO transactionDAO = new TransactionsDAO();
-
-            // Connect the list to  the grid view 
-            //transactionBindingSource.DataSource = transactionDAO.getSearchedTransactions(userId, searchTerm);
-
-            //dataGridView_transactions.DataSource = transactionBindingSource;
-
-            var transactions = transactionDAO.getSearchedTransactions(userId, searchTerm);
-
-            // New DataTable
-            DataTable dataTable = new DataTable();
-
-            // Adding columns to the table
-            dataTable.Columns.Add("Index", typeof(int));
-            dataTable.Columns.Add("Transaction Date", typeof(DateTime));
-            dataTable.Columns.Add("Transaction Type", typeof(string));
-            dataTable.Columns.Add("Transaction Amount", typeof(float));
-            dataTable.Columns.Add("Transaction Status", typeof(string));
-
-
-            // Connect the list to  the grid view 
-            //transactionBindingSource.DataSource = transactionDAO.getDateFilteredTransactions(userId, transactionDate);
-            int index = 1;
-            foreach (var transaction in transactions)
-            {
-                dataTable.Rows.Add(index++, transaction.transactionTime, transaction.transactionType,
-                    transaction.transactionAmount, transaction.transactionStatus);
-            }
-
-            dataGridView_transactions.DataSource = dataTable;
+            miniStatementDataGridView.DataSource = dbService.GetSearchedTransactionsAsDataTable(this.accountId, searchTerm);
         }
 
         private void dateTimePicker_transaction_ValueChanged(object sender, EventArgs e)
@@ -106,30 +56,12 @@ namespace BankingApp
             // Format date to db date format
             string transactionDate = filterTransactionDateTime.ToString("yyyy-MM-dd");
 
-            TransactionsDAO transactionDAO = new TransactionsDAO();
-            var transactions = transactionDAO.getDateFilteredTransactions(userId, transactionDate);
+            miniStatementDataGridView.DataSource = dbService.GetDateFilteredTransactionsAsDataTable(this.accountId, transactionDate);
+        }
 
-            // New DataTable
-            DataTable dataTable = new DataTable();
+        private void textBox_search_TextChanged(object sender, EventArgs e)
+        {
 
-            // Adding columns to the table
-            dataTable.Columns.Add("Index", typeof(int));
-            dataTable.Columns.Add("Transaction Date", typeof(DateTime));
-            dataTable.Columns.Add("Transaction Type", typeof(string));
-            dataTable.Columns.Add("Transaction Amount", typeof(float));
-            dataTable.Columns.Add("Transaction Status", typeof(string));
-
-
-            // Connect the list to  the grid view 
-            //transactionBindingSource.DataSource = transactionDAO.getDateFilteredTransactions(userId, transactionDate);
-            int index = 1;
-            foreach (var transaction in transactions)
-            {
-                dataTable.Rows.Add(index++, transaction.transactionTime, transaction.transactionType,
-                    transaction.transactionAmount, transaction.transactionStatus);
-            }
-
-            dataGridView_transactions.DataSource = dataTable;
         }
     }
 }

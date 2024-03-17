@@ -1,4 +1,6 @@
-﻿namespace BankingApp
+﻿using System.ComponentModel;
+
+namespace BankingApp
 {
     partial class MiniStatementForm
     {
@@ -29,12 +31,12 @@
         private void InitializeComponent()
         {
             button_back = new Button();
-            dataGridView_transactions = new DataGridView();
             textBox_search = new TextBox();
             button_search = new Button();
             dateTimePicker_transaction = new DateTimePicker();
-            label1 = new Label();
-            ((System.ComponentModel.ISupportInitialize)dataGridView_transactions).BeginInit();
+            miniStatementLabel = new Label();
+            miniStatementDataGridView = new DataGridView();
+            ((ISupportInitialize)miniStatementDataGridView).BeginInit();
             SuspendLayout();
             // 
             // button_back
@@ -48,14 +50,6 @@
             button_back.UseVisualStyleBackColor = false;
             button_back.Click += button1_Click;
             // 
-            // dataGridView_transactions
-            // 
-            dataGridView_transactions.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView_transactions.Location = new Point(25, 75);
-            dataGridView_transactions.Name = "dataGridView_transactions";
-            dataGridView_transactions.Size = new Size(553, 349);
-            dataGridView_transactions.TabIndex = 1;
-            // 
             // textBox_search
             // 
             textBox_search.Location = new Point(280, 26);
@@ -63,6 +57,7 @@
             textBox_search.PlaceholderText = "Search Transaction Type";
             textBox_search.Size = new Size(217, 23);
             textBox_search.TabIndex = 2;
+            textBox_search.TextChanged += textBox_search_TextChanged;
             // 
             // button_search
             // 
@@ -82,40 +77,62 @@
             dateTimePicker_transaction.TabIndex = 4;
             dateTimePicker_transaction.ValueChanged += dateTimePicker_transaction_ValueChanged;
             // 
-            // label1
+            // miniStatementLabel
             // 
-            label1.AutoSize = true;
-            label1.Location = new Point(346, 5);
-            label1.Name = "label1";
-            label1.Size = new Size(38, 15);
-            label1.TabIndex = 5;
-            label1.Text = "label1";
+            miniStatementLabel.AutoSize = true;
+            miniStatementLabel.Font = new Font("Microsoft Sans Serif", 20F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            miniStatementLabel.Location = new Point(424, 216);
+            miniStatementLabel.Name = "miniStatementLabel";
+            miniStatementLabel.Size = new Size(194, 31);
+            miniStatementLabel.TabIndex = 0;
+            miniStatementLabel.Text = "Mini Statement";
+            // 
+            // miniStatementDataGridView
+            // 
+            miniStatementDataGridView.AllowUserToAddRows = false;
+            miniStatementDataGridView.AllowUserToDeleteRows = false;
+            miniStatementDataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+            miniStatementDataGridView.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+            miniStatementDataGridView.Location = new Point(197, 310);
+            miniStatementDataGridView.Name = "miniStatementDataGridView";
+            miniStatementDataGridView.ReadOnly = true;
+            miniStatementDataGridView.Size = new Size(800, 500);
+            miniStatementDataGridView.TabIndex = 1;
             // 
             // MiniStatementForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(590, 436);
-            Controls.Add(label1);
+            ClientSize = new Size(1200, 1040);
             Controls.Add(dateTimePicker_transaction);
             Controls.Add(button_search);
             Controls.Add(textBox_search);
-            Controls.Add(dataGridView_transactions);
             Controls.Add(button_back);
+            Controls.Add(miniStatementDataGridView);
+            Controls.Add(miniStatementLabel);
             Name = "MiniStatementForm";
             Text = "MiniStatementForm";
-            ((System.ComponentModel.ISupportInitialize)dataGridView_transactions).EndInit();
+            Load += MiniStatementForm_Load;
+            ((ISupportInitialize)miniStatementDataGridView).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
 
-        private Button button_back;
-        private DataGridView dataGridView_transactions;
+
+        /*private Button button_back;
+        //private DataGridView dataGridView_transactions;
         private TextBox textBox_search;
         private Button button_search;
         private DateTimePicker dateTimePicker_transaction;
-        private Label label1;
+        private Label label1;*/
+
+        private Button button_back;
+        private TextBox textBox_search;
+        private Button button_search;
+        private DateTimePicker dateTimePicker_transaction;
+        private Label miniStatementLabel;
+        private DataGridView miniStatementDataGridView;
     }
 }

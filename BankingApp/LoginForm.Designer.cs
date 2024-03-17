@@ -79,6 +79,7 @@
             pinTextBox.Name = "pinTextBox";
             pinTextBox.Size = new Size(300, 47);
             pinTextBox.TabIndex = 1;
+            pinTextBox.PasswordChar = '*';
             // 
             // loginButton
             // 
