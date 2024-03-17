@@ -28,12 +28,35 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Text = "ViewBalanceForm";
+            SuspendLayout();
+
+            // Label to display the balance
+            label1 = new Label();
+            label1.AutoSize = true;
+            label1.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label1.Location = new Point(300, 200);
+            label1.Name = "label1";
+            label1.Text = "Available Balance";
+            label1.Size = new Size(65, 20);
+            label1.TabIndex = 0;
+            
+            // 
+            // ViewBalanceForm
+            // 
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(757, 445);
+            Controls.Add(label1);
+            Name = "ViewBalanceForm";
+            Text = "ViewBalanceForm";
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
+
+        // Add a label to display the balance
+        private Label label1;
+
     }
 }
