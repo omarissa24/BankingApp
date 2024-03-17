@@ -32,11 +32,6 @@ namespace BankingApp
             miniStatementDataGridView.DataSource = dbService.GetTransactionsAsDataTable(this.accountId);
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-
         private void button_search_Click(object sender, EventArgs e)
         {
             string searchTerm = textBox_search.Text;
