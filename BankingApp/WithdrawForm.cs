@@ -13,40 +13,20 @@ namespace BankingApp
 {
     public partial class WithdrawForm : Form
     {
-        private MySqlConnection connection;
-        private string? server;
-        private string? database;
-        private string? uid;
-        private string? password;
+        private DBService dbService = new DBService();
         private int userId;
         private int accountId;
 
         public WithdrawForm()
         {
             InitializeComponent();
-            // Reading from environment variables
-            server = Environment.GetEnvironmentVariable("DB_SERVER");
-            database = Environment.GetEnvironmentVariable("DB_DATABASE");
-            uid = Environment.GetEnvironmentVariable("DB_UID");
-            password = Environment.GetEnvironmentVariable("DB_PASSWORD");
-
-            string connectionString = $"SERVER={server};DATABASE={database};UID={uid};PASSWORD={password};";
-            connection = new MySqlConnection(connectionString);
         }
 
         public WithdrawForm(int userId)
         {
             InitializeComponent();
-            // Reading from environment variables
-            server = Environment.GetEnvironmentVariable("DB_SERVER");
-            database = Environment.GetEnvironmentVariable("DB_DATABASE");
-            uid = Environment.GetEnvironmentVariable("DB_UID");
-            password = Environment.GetEnvironmentVariable("DB_PASSWORD");
-
-            string connectionString = $"SERVER={server};DATABASE={database};UID={uid};PASSWORD={password};";
-            connection = new MySqlConnection(connectionString);
             this.userId = userId;
-            this.accountId = GetAccountId();
+            this.accountId = dbService.GetAccountId(this.userId);
         }
 
         private void withdrawButton_Click(object sender, EventArgs e)
@@ -56,16 +36,16 @@ namespace BankingApp
             {
                 return;
             }
-            float balance = GetBalance();
+            float balance = dbService.GetBalance(this.userId);
             if (withdrawAmount > balance)
             {
                 MessageBox.Show("Insufficient balance, your current balance is " + balance);
-                AddTransaction(withdrawAmount, "Failed");
+                dbService.AddTransaction(this.accountId, withdrawAmount, "Withdraw", "Failed");
                 return;
             }
             float newBalance = balance - withdrawAmount;
-            UpdateBalance(newBalance);
-            AddTransaction(withdrawAmount, "Success");
+            dbService.UpdateBalance(this.userId, newBalance);
+            dbService.AddTransaction(this.accountId, withdrawAmount, "Withdraw", "Success");
             MessageBox.Show("Withdrawal successful, your new balance is " + newBalance);
             
         }
@@ -79,62 +59,6 @@ namespace BankingApp
                 return 0;
             }
             return withdrawAmount;
-        }
-
-        private float GetBalance()
-        {
-            connection.Open();
-            string query = "SELECT balance FROM Account WHERE idAccount=@accountId";
-            MySqlCommand cmd = new MySqlCommand(query, connection);
-            cmd.Parameters.AddWithValue("@accountId", this.accountId);
-            MySqlDataReader reader = cmd.ExecuteReader();
-            reader.Read();
-            float balance = reader.GetFloat("balance");
-            reader.Close();
-            connection.Close();
-
-            return balance;
-        }
-
-        private void UpdateBalance(float newBalance)
-        {
-            connection.Open();
-            string query = "UPDATE Account SET balance=@newBalance WHERE idAccount=@accountId";
-            MySqlCommand cmd = new MySqlCommand(query, connection);
-            cmd.Parameters.AddWithValue("@newBalance", newBalance);
-            cmd.Parameters.AddWithValue("@accountId", this.accountId);
-            cmd.ExecuteNonQuery();
-            connection.Close();
-        }
-
-        private void AddTransaction(float withdrawAmount, string status)
-        {
-            connection.Open();
-            string query = "INSERT INTO Transaction (idAccount, transactionTime, transactionType, transactionAmount, transactionStatus) VALUES (@accountId, @transactionTime, @transactionType, @transactionAmount, @transactionStatus)";
-            MySqlCommand cmd = new MySqlCommand(query, connection);
-            cmd.Parameters.AddWithValue("@accountId", this.accountId);
-            cmd.Parameters.AddWithValue("@transactionTime", DateTime.Now);
-            cmd.Parameters.AddWithValue("@transactionType", "Withdraw");
-            cmd.Parameters.AddWithValue("@transactionAmount", withdrawAmount);
-            //status = "Success" or "Failed"
-            cmd.Parameters.AddWithValue("@transactionStatus", status);
-            cmd.ExecuteNonQuery();
-            connection.Close();
-        }
-
-        private int GetAccountId()
-        {
-            connection.Open();
-            string query = "SELECT idAccount FROM Account WHERE accountUser=@userId";
-            MySqlCommand cmd = new MySqlCommand(query, connection);
-            cmd.Parameters.AddWithValue("@userId", this.userId);
-            MySqlDataReader reader = cmd.ExecuteReader();
-            reader.Read();
-            int accountId = reader.GetInt32("idAccount");
-            reader.Close();
-            connection.Close();
-
-            return accountId;
         }
     }
 }

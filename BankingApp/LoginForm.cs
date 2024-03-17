@@ -15,23 +15,12 @@ namespace BankingApp
 {
     public partial class LoginForm : Form
     {
-        private MySqlConnection connection;
-        private string? server;
-        private string? database;
-        private string? uid;
-        private string? password;
+        private DBService dbService;
 
         public LoginForm()
         {
             InitializeComponent();
-            // Reading from environment variables
-            server = Environment.GetEnvironmentVariable("DB_SERVER");
-            database = Environment.GetEnvironmentVariable("DB_DATABASE");
-            uid = Environment.GetEnvironmentVariable("DB_UID");
-            password = Environment.GetEnvironmentVariable("DB_PASSWORD");
-
-            string connectionString = $"SERVER={server};DATABASE={database};UID={uid};PASSWORD={password};";
-            connection = new MySqlConnection(connectionString);
+            dbService = new DBService();
         }
 
         private void loginButton_Click(object sender, EventArgs e)
@@ -40,17 +29,10 @@ namespace BankingApp
             string pin = pinTextBox.Text;
             try
             {
-                connection.Open();
-                string query = "SELECT * FROM User WHERE Username=@username AND Pin=@pin";
-                MySqlCommand cmd = new MySqlCommand(query, connection);
-                cmd.Parameters.AddWithValue("@username", username);
-                cmd.Parameters.AddWithValue("@pin", pin);
-                MySqlDataReader reader = cmd.ExecuteReader();
+                int userId = dbService.Login(username, pin);
 
-                if (reader.HasRows)
+                if (userId != 0)
                 {
-                    reader.Read();
-                    int userId = reader.GetInt32("UserId");
                     MainForm mainForm = new MainForm(userId);
                     mainForm.Show();
                     this.Hide();
@@ -59,7 +41,6 @@ namespace BankingApp
                 {
                     MessageBox.Show("Invalid username or PIN.");
                 }
-                reader.Close();
             }
             catch (MySqlException ex)
             {
@@ -67,7 +48,7 @@ namespace BankingApp
             }
             finally
             {
-                connection.Close();
+                
             }
         }
 
