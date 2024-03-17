@@ -12,6 +12,7 @@ namespace BankingApp
 {
     public partial class MiniStatementForm : Form
     {
+        int userId;
         BindingSource transactionBindingSource = new BindingSource();
         public MiniStatementForm()
         {
@@ -20,6 +21,7 @@ namespace BankingApp
 
         public MiniStatementForm(int userId)
         {
+            this.userId = userId;
             InitializeComponent();
             // Load user data and transactions.
         }
@@ -27,13 +29,11 @@ namespace BankingApp
         private void button1_Click(object sender, EventArgs e)
         {
             TransactionsDAO transactionDAO = new TransactionsDAO();
-            
 
             // Connect the list to  the grid view 
-            transactionBindingSource.DataSource = transactionDAO.getAllTransactions();
+            transactionBindingSource.DataSource = transactionDAO.getAllTransactions(userId);
 
             dataGridView_transactions.DataSource = transactionBindingSource;
-
         }
     }
 }

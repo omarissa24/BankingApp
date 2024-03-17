@@ -15,7 +15,7 @@ namespace BankingApp
 
         string connectionString = "datasource=localhost;port=3306;username=root;password=;database=banking_app";
 
-        public List<Transaction> getAllTransactions() {
+        public List<Transaction> getAllTransactions(int userId) {
             // Starts with an empty list 
             List<Transaction> transactions = new List<Transaction>();
 
@@ -24,8 +24,13 @@ namespace BankingApp
             connection.Open();
 
             // SQL Query for feting the data needed
-            string query = "SELECT * FROM transaction";
+            string query = "SELECT transactionTime,transactionType,transactionAmount ,transactionStatus " +
+                "FROM transaction WHERE idAccount = @id";
+
             MySqlCommand command = new MySqlCommand(query, connection);
+
+            command.Parameters.AddWithValue("@id", userId);
+            command.Connection = connection;
 
             using (MySqlDataReader reader = command.ExecuteReader())
             {
@@ -33,12 +38,55 @@ namespace BankingApp
                 {
                     Transaction transaction = new Transaction
                     {
-                        transactionId = reader.GetInt32(0),
-                        accountId = reader.GetInt32(1),
-                        transactionTime = reader.GetDateTime(2),
-                        transactionType = reader.GetString(3),
-                        transactionAmount = reader.GetFloat(4),
-                        transactionStatus = reader.GetString(5)
+                        //transactionId = reader.GetInt32(0),
+                        //accountId = reader.GetInt32(1),
+                        transactionTime = reader.GetDateTime(0),
+                        transactionType = reader.GetString(1),
+                        transactionAmount = reader.GetFloat(2),
+                        transactionStatus = reader.GetString(3)
+                    };
+
+                    transactions.Add(transaction);
+                }
+            }
+            connection.Close();
+
+            return transactions;
+
+        }
+        public List<Transaction> getSearchedTransactions(int userId,string searchTerm)
+        {
+            // Starts with an empty list 
+            List<Transaction> transactions = new List<Transaction>();
+
+            // Connecting to Mysql server
+            MySqlConnection connection = new MySqlConnection(connectionString);
+            connection.Open();
+
+            // SQL Query for feting the data needed
+            string query = "SELECT transactionTime, transactionType," +
+                " transactionAmount, transactionStatus FROM transaction " +
+                "WHERE idAccount = @id AND transactionType LIKE @search";
+
+            //int id = userId;
+            string searchWildCard = "%" + searchTerm + "%";
+
+            MySqlCommand command = new MySqlCommand(query, connection);
+
+            command.Parameters.AddWithValue("@id", userId);
+            command.Parameters.AddWithValue("@search", searchWildCard);
+            command.Connection = connection;
+
+            using (MySqlDataReader reader = command.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    Transaction transaction = new Transaction
+                    {
+                        transactionTime = reader.GetDateTime(0),
+                        transactionType = reader.GetString(1),
+                        transactionAmount = reader.GetFloat(2),
+                        transactionStatus = reader.GetString(3)
                     };
 
                     transactions.Add(transaction);
