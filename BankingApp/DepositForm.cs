@@ -14,11 +14,7 @@ namespace BankingApp
     public partial class DepositForm : Form
     {
 
-        private MySqlConnection connection;
-        private string server;
-        private string database;
-        private string uid;
-        private string password;
+        private DBService dbService = new DBService();
         private int userId;
         private int accountId;
 
@@ -26,29 +22,13 @@ namespace BankingApp
         public DepositForm()
         {
             InitializeComponent();
-            server = "13.39.79.161";
-            database = "bankapp";
-            uid = "epita";
-            password = "Secret@123";
-            string connectionString;
-            connectionString = "SERVER=" + server + ";" + "DATABASE=" +
-            database + ";" + "UID=" + uid + ";" + "PASSWORD=" + password + ";";
-            connection = new MySqlConnection(connectionString);
         }
 
         public DepositForm(int userId)
         {
             InitializeComponent();
             this.userId = userId;
-            server = "13.39.79.161";
-            database = "bankapp";
-            uid = "epita";
-            password = "Secret@123";
-            string connectionString;
-            connectionString = "SERVER=" + server + ";" + "DATABASE=" +
-            database + ";" + "UID=" + uid + ";" + "PASSWORD=" + password + ";";
-            connection = new MySqlConnection(connectionString);
-            this.accountId = GetAccountId();
+            this.accountId = dbService.GetAccountId(this.userId);
 
         }
 
@@ -62,15 +42,15 @@ namespace BankingApp
             }
 
             // Get current balance
-            float balance = GetBalance();
+            float balance = dbService.GetBalance(this.userId);
 
             // Update balance
             float newBalance = balance + depositAmount;
 
-            UpdateBalance(newBalance);
+            dbService.UpdateBalance(this.userId, newBalance);
 
             // Add transaction
-            AddTransaction(depositAmount);
+            dbService.AddTransaction(this.accountId, depositAmount, "Deposit", "Success");
 
             MessageBox.Show("Deposit successful. New balance: " + newBalance);
         }
@@ -87,63 +67,6 @@ namespace BankingApp
                 MessageBox.Show("Please enter a valid amount.");
                 return 0;
             }
-        }
-
-        private float GetBalance()
-        {
-            connection.Open();
-            string query = "SELECT Balance FROM Account WHERE accountUser=@userId";
-            
-            MySqlCommand cmd = new MySqlCommand(query, connection);
-            cmd.Parameters.AddWithValue("@userId", this.userId);
-            MySqlDataReader reader = cmd.ExecuteReader();
-            reader.Read();
-            float balance = reader.GetFloat("Balance");
-            reader.Close();
-            connection.Close();
-
-            return balance;
-        }
-
-        private void UpdateBalance(float newBalance)
-        {
-            connection.Open();
-            string query = "UPDATE Account SET Balance=@newBalance WHERE accountUser=@userId";
-            MySqlCommand cmd = new MySqlCommand(query, connection);
-            cmd.Parameters.AddWithValue("@newBalance", newBalance);
-            cmd.Parameters.AddWithValue("@userId", this.userId);
-            cmd.ExecuteNonQuery();
-            connection.Close();
-        }
-
-        private void AddTransaction(float depositAmount)
-        {
-            connection.Open();
-            string query = "INSERT INTO Transaction (idAccount, transactionTime, transactionType, transactionAmount, transactionStatus) VALUES (@idAccount, @transactionTime, @transactionType, @transactionAmount, @transactionStatus)";
-            MySqlCommand cmd = new MySqlCommand(query, connection);
-
-            cmd.Parameters.AddWithValue("@idAccount", this.accountId);
-            cmd.Parameters.AddWithValue("@transactionTime", DateTime.Now);
-            cmd.Parameters.AddWithValue("@transactionType", "Deposit");
-            cmd.Parameters.AddWithValue("@transactionAmount", depositAmount);
-            cmd.Parameters.AddWithValue("@transactionStatus", "Success");
-            cmd.ExecuteNonQuery();
-            connection.Close();
-        }
-
-        private int GetAccountId()
-        {
-            connection.Open();
-            string query = "SELECT idAccount FROM Account WHERE accountUser=@userId";
-            MySqlCommand cmd = new MySqlCommand(query, connection);
-            cmd.Parameters.AddWithValue("@userId", this.userId);
-            MySqlDataReader reader = cmd.ExecuteReader();
-            reader.Read();
-            int accountId = reader.GetInt32("idAccount");
-            reader.Close();
-            connection.Close();
-
-            return accountId;
         }
     }
 }
