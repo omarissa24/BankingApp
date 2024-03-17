@@ -25,12 +25,6 @@ namespace BankingApp
             this.userId = userId;
             InitializeComponent();
             // Load user data and transactions.
-
-
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
             TransactionsDAO transactionDAO = new TransactionsDAO();
 
             // Connect the list to  the grid view 
@@ -60,6 +54,12 @@ namespace BankingApp
             }
 
             dataGridView_transactions.DataSource = dataTable;
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
 
         private void button_search_Click(object sender, EventArgs e)
