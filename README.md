@@ -4,6 +4,13 @@
 
 The Bank Management Application is a secure and user-friendly Windows Forms application designed for managing personal banking transactions. It provides a convenient way for users to perform essential banking operations like withdrawals, deposits, viewing account balances, and reviewing mini statements.
 
+## Installation / Setup
+
+To install the Bank Management Application on your Windows system, follow these steps:
+
+1. Install MySql.Data from your Nuget Package Manager. (Right click on dependencies -> Click on manage Nuget Packages -> Browse and Install Required Packages.)
+2. Add your DB_SERVER, DB_DATABASE, DB_UID, DB_PASSWORD in your system environement variables to connect to your desired database.
+
 ## Vulnerabilities considered
 The project takes into account some CWE List of known vulnerabilites, and attempts to put measures in place to safeguard against vulnerabilites listed :
 1. CWE-561: Dead Code
@@ -36,10 +43,3 @@ Environment variables are used in this application to protect againt this vulner
 ## Security
 
 - The application employs SHA-256 hashing for PINs, ensuring that your personal information remains encrypted and secure.
-
-## Installation / Setup
-
-To install the Bank Management Application on your Windows system, follow these steps:
-
-1. Install MySql.Data from your Nuget Package Manager. (Right click on dependencies -> Click on manage Nuget Packages -> Browse and Install Required Packages.)
-2. Add your DB_SERVER, DB_DATABASE, DB_UID, DB_PASSWORD in your system environement variables to connect to your desired database.
