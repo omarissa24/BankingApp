@@ -14,36 +14,36 @@ namespace BankingApp
     public partial class WithdrawForm : Form
     {
         private MySqlConnection connection;
-        private string server;
-        private string database;
-        private string uid;
-        private string password;
+        private string? server;
+        private string? database;
+        private string? uid;
+        private string? password;
         private int userId;
         private int accountId;
 
         public WithdrawForm()
         {
             InitializeComponent();
-            server = "13.39.79.161";
-            database = "bankapp";
-            uid = "epita";
-            password = "Secret@123";
-            string connectionString;
-            connectionString = "SERVER=" + server + ";" + "DATABASE=" +
-            database + ";" + "UID=" + uid + ";" + "PASSWORD=" + password + ";";
+            // Reading from environment variables
+            server = Environment.GetEnvironmentVariable("DB_SERVER");
+            database = Environment.GetEnvironmentVariable("DB_DATABASE");
+            uid = Environment.GetEnvironmentVariable("DB_UID");
+            password = Environment.GetEnvironmentVariable("DB_PASSWORD");
+
+            string connectionString = $"SERVER={server};DATABASE={database};UID={uid};PASSWORD={password};";
             connection = new MySqlConnection(connectionString);
         }
 
         public WithdrawForm(int userId)
         {
             InitializeComponent();
-            server = "13.39.79.161";
-            database = "bankapp";
-            uid = "epita";
-            password = "Secret@123";
-            string connectionString;
-            connectionString = "SERVER=" + server + ";" + "DATABASE=" +
-            database + ";" + "UID=" + uid + ";" + "PASSWORD=" + password + ";";
+            // Reading from environment variables
+            server = Environment.GetEnvironmentVariable("DB_SERVER");
+            database = Environment.GetEnvironmentVariable("DB_DATABASE");
+            uid = Environment.GetEnvironmentVariable("DB_UID");
+            password = Environment.GetEnvironmentVariable("DB_PASSWORD");
+
+            string connectionString = $"SERVER={server};DATABASE={database};UID={uid};PASSWORD={password};";
             connection = new MySqlConnection(connectionString);
             this.userId = userId;
             this.accountId = GetAccountId();
