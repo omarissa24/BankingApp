@@ -60,9 +60,30 @@ namespace BankingApp
             string transactionDate = filterTransactionDateTime.ToString("yyyy-MM-dd");
 
             TransactionsDAO transactionDAO = new TransactionsDAO();
+            var transactions = transactionDAO.getDateFilteredTransactions(userId, transactionDate);
+            
+            // New DataTable
+            DataTable dataTable = new DataTable();
+
+            // Adding columns to the table
+            dataTable.Columns.Add("Index", typeof(int));
+            dataTable.Columns.Add("Transaction Date", typeof(DateTime));
+            dataTable.Columns.Add("Transaction Type", typeof(string));
+            dataTable.Columns.Add("Transaction Amount", typeof(float));
+            dataTable.Columns.Add("Transaction Status", typeof(string));
+
 
             // Connect the list to  the grid view 
-            transactionBindingSource.DataSource = transactionDAO.getDateFilteredTransactions(userId, transactionDate);
+            //transactionBindingSource.DataSource = transactionDAO.getDateFilteredTransactions(userId, transactionDate);
+            int index = 1;
+            foreach (var transaction in transactions) { 
+                dataTable.Rows.Add(index++, transaction.transactionTime, transaction.transactionType,
+                    transaction.transactionAmount, transaction.transactionStatus);
+            }
+
+            dataGridView_transactions.DataSource = dataTable;
+            //Clearing existing columns
+            //dataGridView_transactions.Columns.Add("")
         }
     }
 }
