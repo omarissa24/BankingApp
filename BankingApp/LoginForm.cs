@@ -48,7 +48,7 @@ namespace BankingApp
             }
             finally
             {
-                
+
             }
         }
 
@@ -60,6 +60,12 @@ namespace BankingApp
         private void usernameTextBox_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Signup signupForm = new Signup();
+            signupForm.Show();
         }
     }
 }

@@ -124,7 +124,7 @@ namespace BankingApp
             return Convert.ToBase64String(result);
         }
 
-        public void CreateUser(string username, string pin)
+        public int CreateUser(string username, string pin)
         {
             string query = "INSERT INTO User (Username, Pin) VALUES (@username, @pin)";
             connection.Open();
@@ -133,6 +133,9 @@ namespace BankingApp
             cmd.Parameters.AddWithValue("@pin", EncodePassword(pin));
             cmd.ExecuteNonQuery();
             connection.Close();
+            int userId = 0;
+            userId = GetUserId(username);
+            return userId;
         }
 
         public void CreateAccount(int userId)
@@ -143,6 +146,21 @@ namespace BankingApp
             cmd.Parameters.AddWithValue("@userId", userId);
             cmd.ExecuteNonQuery();
             connection.Close();
+        }
+
+        public int GetUserId(string username)
+        {
+            string query = $"SELECT UserId FROM User WHERE Username = '{username}'";
+            connection.Open();
+            MySqlCommand cmd = new MySqlCommand(query, connection);
+            MySqlDataReader reader = cmd.ExecuteReader();
+            int userId = 0;
+            while (reader.Read())
+            {
+                userId = reader.GetInt32(0);
+            }
+            connection.Close();
+            return userId;
         }
     }
 }
