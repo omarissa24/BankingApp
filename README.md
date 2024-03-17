@@ -21,7 +21,7 @@ Environment variables are used in this application to protect againt this vulner
 
 - **View Balance:** Users can check their current account balance at any time, providing them with up-to-date information about their financial status.
 
-- **Mini Statement:** The application offers a mini statement feature that allows users to view their recent transactions, helping them keep track of their spending and deposits.
+- **Mini Statement:** The application offers a mini statement feature that allows users to view their recent transactions, helping them keep track of their spending and deposits. We can also filter by transaction date and search by transaction type.
 
 ## How to Use
 
