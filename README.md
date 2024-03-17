@@ -4,6 +4,13 @@
 
 The Bank Management Application is a secure and user-friendly Windows Forms application designed for managing personal banking transactions. It provides a convenient way for users to perform essential banking operations like withdrawals, deposits, viewing account balances, and reviewing mini statements.
 
+## Vulnerabilities considered
+The project takes into account some CWE List of known vulnerabilites, and attempts to put measures in place to safeguard against vulnerabilites listed :
+1. CWE-561: Dead Code
+Cleaned up all code to not contain dead code
+2. CWE-547: Use of Hard-coded, Security-relevant Constants
+Environment variables are used in this application to protect againt this vulnerability
+
 ## Features
 
 - **Secure Login:** Users can access their accounts using a username and PIN. The application ensures security by hashing the PIN with SHA-256 encryption, providing an additional layer of security against unauthorized access.
