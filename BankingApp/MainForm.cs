@@ -44,6 +44,7 @@ namespace BankingApp
         private void miniStatementButton_Click(object sender, EventArgs e)
         {
             MiniStatementForm miniStatementForm = new MiniStatementForm(userId);
+            
             miniStatementForm.Show();
         }
 

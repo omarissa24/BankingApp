@@ -117,6 +117,49 @@ namespace BankingApp
             return table;
         }
 
+        public DataTable GetSearchedTransactionsAsDataTable(int accountId, string searchTerm)
+        {
+            connection.Open();
+            string query = "SELECT transactionType AS \"Transaction Type\", " +
+                "transactionAmount AS \"Transaction Amount\", transactionTime AS \"Transaction Time\", " +
+                "transactionStatus AS \"Transaction Status\" FROM Transaction " +
+                "WHERE idAccount=@accountId " +
+                "AND transactionType LIKE @search " +
+                "ORDER BY transactionTime DESC";
+
+            string searchWildCard = "%" + searchTerm + "%";
+            MySqlCommand cmd = new MySqlCommand(query, connection);
+            cmd.Parameters.AddWithValue("@accountId", accountId);
+            cmd.Parameters.AddWithValue("@search", searchWildCard);
+
+            MySqlDataAdapter adapter = new MySqlDataAdapter(cmd);
+            DataTable table = new DataTable();
+            adapter.Fill(table);
+            connection.Close();
+            return table;
+        }
+   
+        public DataTable GetDateFilteredTransactionsAsDataTable(int accountId, string transactionDate)
+        {
+            connection.Open();
+            string query = "SELECT transactionType AS \"Transaction Type\", " +
+                "transactionAmount AS \"Transaction Amount\", transactionTime AS \"Transaction Time\", " +
+                "transactionStatus AS \"Transaction Status\" FROM Transaction " +
+                "WHERE idAccount=@accountId " +
+                "AND DATE(transactionTime) = @transactionDate " +
+                "ORDER BY transactionTime DESC";
+
+            MySqlCommand cmd = new MySqlCommand(query, connection);
+            cmd.Parameters.AddWithValue("@accountId", accountId);
+            cmd.Parameters.AddWithValue("@transactionDate", transactionDate);
+
+            MySqlDataAdapter adapter = new MySqlDataAdapter(cmd);
+            DataTable table = new DataTable();
+            adapter.Fill(table);
+            connection.Close();
+            return table;
+        }
+
         private static string EncodePassword(string password)
         {
             byte[] data = System.Text.Encoding.Unicode.GetBytes(password);
